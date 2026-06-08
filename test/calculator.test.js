@@ -50,16 +50,28 @@ test('no-fines prime de 250 L usa as proporções conhecidas', () => {
   assert.equal(result.isExact, true);
 });
 
-test('calcula pacotes necessários para os itens secos', () => {
+test('calcula pacotes de 25 L necessários para os itens secos', () => {
   const result = calculateMix('concrete', 120);
   const [cement, aggregate, sand, water] = result.ingredients;
 
-  assert.equal(cement.packageUse, 0.48);
+  // 120 L de concreto: cimento 18 L, agregado 60 L, areia 30 L, água 12 L.
+  assert.equal(cement.packageUse, 18 / 25);
   assert.equal(cement.packagesNeeded, 1);
-  assert.equal(aggregate.packageUse, 1.92);
-  assert.equal(aggregate.packagesNeeded, 2);
-  assert.equal(sand.packageUse, 0.96);
-  assert.equal(sand.packagesNeeded, 1);
-  assert.equal(water.packageUse, null);
-  assert.equal(water.packagesNeeded, null);
+  assert.equal(aggregate.packageUse, 60 / 25);
+  assert.equal(aggregate.packagesNeeded, 3);
+  assert.equal(sand.packageUse, 30 / 25);
+  assert.equal(sand.packagesNeeded, 2);
+  assert.equal(water.packageUse, 12 / 25);
+  assert.equal(water.packagesNeeded, 1);
+  assert.equal(water.container, 'balde');
+});
+
+test('arredonda pacotes de 25 L para cima quando o uso é fracionado', () => {
+  const result = calculateMix('concrete', 250);
+  const [cement] = result.ingredients;
+
+  // 37,5 L de cimento em pacotes de 25 L: usa 1,5 pacotes, precisa separar 2.
+  assert.equal(cement.liters, 37.5);
+  assert.equal(cement.packageUse, 1.5);
+  assert.equal(cement.packagesNeeded, 2);
 });

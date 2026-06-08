@@ -31,11 +31,13 @@ function syncVolume(value) {
 
 function renderPackageInfo(ingredient) {
   if (ingredient.packageUse === null) {
-    return 'Sem pacote: medir direto em litros';
+    return 'Medir direto em litros';
   }
 
-  const packageWord = ingredient.packagesNeeded === 1 ? 'pacote' : 'pacotes';
-  return `${ingredient.packagesNeeded} ${packageWord} para ter material suficiente · usar ${formatNumber(ingredient.packageUse)} ${packageWord}`;
+  const container = ingredient.container ?? 'pacote';
+  const neededWord = ingredient.packagesNeeded === 1 ? container : `${container}s`;
+  const useWord = ingredient.packageUse === 1 ? container : `${container}s`;
+  return `${ingredient.packagesNeeded} ${neededWord} para ter material suficiente · usar ${formatNumber(ingredient.packageUse)} ${useWord}`;
 }
 
 function render() {
