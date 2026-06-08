@@ -1,30 +1,34 @@
 export const MAX_CAPACITY_LITERS = 250;
 export const STEP_LITERS = 0.5;
+export const PACKAGE_LITERS = 25;
+
+const PACKAGE = 'pacote';
+const BUCKET = 'balde';
 
 export const MIXES = {
   concrete: {
     label: 'Concreto prime',
     ingredients: [
-      { key: 'cement', label: 'Cimento', ratio: 37.5, packageCountAtPrimeRecipe: 1 },
-      { key: 'aggregate', label: 'Agregado', ratio: 125, packageCountAtPrimeRecipe: 4 },
-      { key: 'sand', label: 'Areia', ratio: 62.5, packageCountAtPrimeRecipe: 2 },
-      { key: 'water', label: 'Água', ratio: 25 }
+      { key: 'cement', label: 'Cimento', ratio: 37.5, packageLiters: PACKAGE_LITERS, container: PACKAGE },
+      { key: 'aggregate', label: 'Agregado', ratio: 125, packageLiters: PACKAGE_LITERS, container: PACKAGE },
+      { key: 'sand', label: 'Areia', ratio: 62.5, packageLiters: PACKAGE_LITERS, container: PACKAGE },
+      { key: 'water', label: 'Água', ratio: 25, packageLiters: PACKAGE_LITERS, container: BUCKET }
     ]
   },
   mortar: {
     label: 'Argamassa prime',
     ingredients: [
-      { key: 'cement', label: 'Cimento', ratio: 37.5, packageCountAtPrimeRecipe: 1 },
-      { key: 'sand', label: 'Areia', ratio: 187.5, packageCountAtPrimeRecipe: 4 },
-      { key: 'water', label: 'Água', ratio: 25 }
+      { key: 'cement', label: 'Cimento', ratio: 37.5, packageLiters: PACKAGE_LITERS, container: PACKAGE },
+      { key: 'sand', label: 'Areia', ratio: 187.5, packageLiters: PACKAGE_LITERS, container: PACKAGE },
+      { key: 'water', label: 'Água', ratio: 25, packageLiters: PACKAGE_LITERS, container: BUCKET }
     ]
   },
   noFines: {
     label: 'No-fines prime',
     ingredients: [
-      { key: 'cement', label: 'Cimento', ratio: 25, packageCountAtPrimeRecipe: 1 },
-      { key: 'aggregate', label: 'Agregado', ratio: 150, packageCountAtPrimeRecipe: 6 },
-      { key: 'water', label: 'Água', ratio: 75 }
+      { key: 'cement', label: 'Cimento', ratio: 25, packageLiters: PACKAGE_LITERS, container: PACKAGE },
+      { key: 'aggregate', label: 'Agregado', ratio: 150, packageLiters: PACKAGE_LITERS, container: PACKAGE },
+      { key: 'water', label: 'Água', ratio: 75, packageLiters: PACKAGE_LITERS, container: BUCKET }
     ]
   }
 };
@@ -97,8 +101,8 @@ export function calculateMix(mixKey, requestedLiters) {
   const ingredients = mix.ingredients.map((ingredient) => {
     const exactLiters = (ingredient.ratio / ratioTotal) * totalLiters;
     const liters = roundToStep(exactLiters);
-    const packageUse = ingredient.packageCountAtPrimeRecipe
-      ? (ingredient.packageCountAtPrimeRecipe * totalLiters) / MAX_CAPACITY_LITERS
+    const packageUse = ingredient.packageLiters
+      ? liters / ingredient.packageLiters
       : null;
 
     return {
@@ -107,6 +111,7 @@ export function calculateMix(mixKey, requestedLiters) {
       liters,
       exactLiters,
       percent: (liters * 100) / totalLiters,
+      container: ingredient.container ?? null,
       packageUse,
       packagesNeeded: packageUse === null ? null : Math.ceil(packageUse - Number.EPSILON),
       isExact: Math.abs(liters - exactLiters) < Number.EPSILON
