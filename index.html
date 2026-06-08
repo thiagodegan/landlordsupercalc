@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landlord's Super Mix Calculator</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero" aria-labelledby="app-title">
+        <p class="eyebrow">Landlord's Super</p>
+        <h1 id="app-title">Calculadora de mix em passos de 0,5&nbsp;L</h1>
+        <p>
+          Calcule concreto, argamassa e no-fines com as proporções prime do jogo,
+          respeitando a capacidade máxima de 250&nbsp;L da betoneira e usando apenas
+          quantidades múltiplas de 0,5&nbsp;L.
+        </p>
+      </section>
+
+      <section class="card controls" aria-label="Configuração da mistura">
+        <label for="mix-type">Tipo de mistura</label>
+        <select id="mix-type"></select>
+
+        <label for="target-liters">Total desejado na betoneira</label>
+        <div class="number-row">
+          <input id="target-liters" type="number" min="0.5" max="250" step="0.5" value="250" inputmode="decimal" />
+          <span>L</span>
+        </div>
+        <input id="target-range" type="range" min="0.5" max="250" step="0.5" value="250" />
+
+        <div class="quick-actions" aria-label="Atalhos de volume">
+          <button type="button" data-volume="50">50 L</button>
+          <button type="button" data-volume="100">100 L</button>
+          <button type="button" data-volume="150">150 L</button>
+          <button type="button" data-volume="200">200 L</button>
+          <button type="button" data-volume="250">250 L</button>
+        </div>
+      </section>
+
+      <section class="card result" aria-live="polite">
+        <div class="result-heading">
+          <div>
+            <p class="eyebrow">Receita ajustada</p>
+            <h2 id="result-title">Concreto prime — 250 L</h2>
+          </div>
+          <span id="total-badge" class="badge">250 L</span>
+        </div>
+
+        <div id="ingredients" class="ingredients"></div>
+
+        <div id="notice" class="notice"></div>
+      </section>
+
+      <section class="card notes">
+        <h2>Como o arredondamento funciona</h2>
+        <ul>
+          <li>O total sempre fica entre 0,5&nbsp;L e 250&nbsp;L.</li>
+          <li>Cada ingrediente é convertido para unidades inteiras de 0,5&nbsp;L.</li>
+          <li>Quando a proporção exata não cabe em 0,5&nbsp;L, a sobra é distribuída para os ingredientes com maior resto, mantendo o total escolhido.</li>
+        </ul>
+      </section>
+    </main>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
