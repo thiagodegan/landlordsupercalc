@@ -13,8 +13,8 @@
         <h1 id="app-title">Calculadora de mix em passos de 0,5&nbsp;L</h1>
         <p>
           Calcule concreto, argamassa e no-fines com as proporções prime do jogo,
-          respeitando a capacidade máxima de 250&nbsp;L da betoneira e usando apenas
-          quantidades múltiplas de 0,5&nbsp;L.
+          respeitando a capacidade máxima de 250&nbsp;L da betoneira, usando apenas
+          quantidades múltiplas de 0,5&nbsp;L e mostrando quantos pacotes separar.
         </p>
       </section>
 
@@ -53,11 +53,12 @@
       </section>
 
       <section class="card notes">
-        <h2>Como o arredondamento funciona</h2>
+        <h2>Como os intervalos seguros funcionam</h2>
         <ul>
-          <li>O total sempre fica entre 0,5&nbsp;L e 250&nbsp;L.</li>
-          <li>Cada ingrediente é convertido para unidades inteiras de 0,5&nbsp;L.</li>
-          <li>Quando a proporção exata não cabe em 0,5&nbsp;L, a sobra é distribuída para os ingredientes com maior resto, mantendo o total escolhido.</li>
+          <li>O total sempre fica dentro da capacidade máxima de 250&nbsp;L.</li>
+          <li>O incremento muda conforme a receita: concreto e argamassa usam 10&nbsp;L; no-fines usa 5&nbsp;L.</li>
+          <li>Esses intervalos evitam aproximações, mantendo a proporção prime e cada ingrediente em múltiplos de 0,5&nbsp;L.</li>
+          <li>Para itens secos, a calculadora mostra quantos pacotes são necessários para ter material suficiente e quanto de pacote será usado.</li>
         </ul>
       </section>
     </main>
